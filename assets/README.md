@@ -4,10 +4,10 @@ This directory contains static assets for the Kernastra portfolio website.
 
 ## Contents
 
-- **project1.jpg** - E-Commerce Platform project screenshot
-- **project2.jpg** - Data Visualization Dashboard project screenshot  
-- **project3.jpg** - Mobile Task Manager project screenshot
-- **project4.jpg** - Real-time Chat Application project screenshot
+- **portfolio-website.jpg** - Personal Portfolio Website project screenshot
+- **space-explorer.jpg** - Space Explorer API project screenshot  
+- **cosmic-dashboard.jpg** - Cosmic Data Dashboard project screenshot
+- **stellar-chat.jpg** - Stellar Chat App project screenshot
 - **resume.pdf** - Kernastra's resume/CV file
 
 ## Image Requirements
