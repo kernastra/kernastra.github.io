@@ -1,9 +1,26 @@
-// Kernastra Landing Page JavaScript
+// Kernastra Portfolio Website JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Smooth scrolling for navigation links
+    // Mobile Navigation Toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
+
+    navToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+        });
+    });
+
+    // Smooth scrolling for navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -11,173 +28,194 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                const navHeight = document.querySelector('.navbar').offsetHeight;
+                const targetPosition = targetElement.offsetTop - navHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
             }
         });
     });
 
-    // Terminal typing effect
-    function typewriterEffect() {
-        const terminalLines = document.querySelectorAll('.terminal-line');
-        const cursor = document.querySelector('.cursor');
-        
-        terminalLines.forEach((line, index) => {
-            const text = line.textContent;
-            line.textContent = '';
+    // Navbar background on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+            navbar.style.background = 'rgba(14, 14, 15, 0.98)';
+        } else {
+            navbar.style.background = 'rgba(14, 14, 15, 0.95)';
+        }
+    });
+
+    // Contact Form Handling
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            setTimeout(() => {
-                let i = 0;
-                const typeInterval = setInterval(() => {
-                    if (i < text.length) {
-                        line.textContent += text.charAt(i);
-                        i++;
-                    } else {
-                        clearInterval(typeInterval);
-                        if (index === terminalLines.length - 1) {
-                            // Show cursor on last line
-                            cursor.style.display = 'inline';
-                        }
-                    }
-                }, 50);
-            }, index * 800);
+            // Get form data
+            const formData = new FormData(contactForm);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const message = formData.get('message');
+            
+            // Simple form validation
+            if (!name || !email || !message) {
+                showNotification('Please fill in all fields.', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showNotification('Please enter a valid email address.', 'error');
+                return;
+            }
+            
+            // Simulate form submission (replace with actual backend integration)
+            showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
+            contactForm.reset();
         });
     }
+
+    // Email validation helper
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Notification system
+    function showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+        
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${message}</span>
+                <button class="notification-close">&times;</button>
+            </div>
+        `;
+        
+        // Add styles
+        notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: ${type === 'success' ? '#8f2f1c' : type === 'error' ? '#d32f2f' : '#cda57d'};
+            color: ${type === 'success' || type === 'error' ? '#e5c197' : '#1a2633'};
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+            max-width: 400px;
+            font-family: 'Montserrat', sans-serif;
+        `;
+        
+        // Add close button functionality
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => notification.remove());
+        
+        // Add to DOM
+        document.body.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 5000);
+    }
+
+    // Add notification animations
+    const notificationStyles = document.createElement('style');
+    notificationStyles.textContent = `
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .notification-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .notification-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+    `;
+    document.head.appendChild(notificationStyles);
 
     // Intersection Observer for animations
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-                
-                // Trigger terminal typing effect when contact section is visible
-                if (entry.target.id === 'contact') {
-                    setTimeout(typewriterEffect, 500);
-                }
-                
-                // Animate status bars when features section is visible
-                if (entry.target.id === 'features') {
-                    animateStatusBars();
-                }
+                entry.target.classList.add('fade-in-up');
             }
         });
     }, observerOptions);
 
     // Observe sections for animations
     const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-
-    // Status bar animation
-    function animateStatusBars() {
-        const statusFills = document.querySelectorAll('.status-fill');
-        statusFills.forEach((fill, index) => {
-            const targetWidth = fill.style.width;
-            fill.style.width = '0%';
-            
-            setTimeout(() => {
-                fill.style.transition = 'width 2s ease-out';
-                fill.style.width = targetWidth;
-            }, index * 200);
-        });
-    }
-
-    // Add CSS for animation classes
-    const style = document.createElement('style');
-    style.textContent = `
-        .section {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        
-        .section.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .feature-card {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        
-        .animate-in .feature-card {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .animate-in .feature-card:nth-child(1) { transition-delay: 0.1s; }
-        .animate-in .feature-card:nth-child(2) { transition-delay: 0.2s; }
-        .animate-in .feature-card:nth-child(3) { transition-delay: 0.3s; }
-        .animate-in .feature-card:nth-child(4) { transition-delay: 0.4s; }
-        
-        .content-card {
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        
-        .animate-in .content-card {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .animate-in .content-card:nth-child(2) { transition-delay: 0.2s; }
-    `;
-    document.head.appendChild(style);
+    const projectCards = document.querySelectorAll('.project-card');
+    const skillCategories = document.querySelectorAll('.skill-category');
+    
+    sections.forEach(section => observer.observe(section));
+    projectCards.forEach(card => observer.observe(card));
+    skillCategories.forEach(category => observer.observe(category));
 
     // Parallax effect for hero section
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
         const hero = document.querySelector('.hero');
-        const rate = scrolled * -0.5;
+        const rate = scrolled * -0.3;
         
-        if (hero) {
+        if (hero && scrolled < window.innerHeight) {
             hero.style.transform = `translateY(${rate}px)`;
         }
     });
 
     // Random glitch effect trigger
     function randomGlitch() {
-        const logo = document.querySelector('.glitch');
-        if (logo) {
-            logo.style.animation = 'none';
+        const glitchElement = document.querySelector('.glitch');
+        if (glitchElement) {
+            glitchElement.style.animation = 'none';
             setTimeout(() => {
-                logo.style.animation = 'glitch 0.3s';
+                glitchElement.style.animation = 'glitch 0.3s';
             }, 10);
             
             setTimeout(() => {
-                logo.style.animation = 'glitch 3s infinite';
+                glitchElement.style.animation = 'glitch 3s infinite';
             }, 300);
         }
     }
 
-    // Trigger random glitch every 10-20 seconds
-    setInterval(randomGlitch, Math.random() * 10000 + 10000);
+    // Trigger random glitch every 15-25 seconds
+    setInterval(randomGlitch, Math.random() * 10000 + 15000);
 
-    // Add hover sound effect simulation (visual feedback)
-    navLinks.forEach(link => {
-        link.addEventListener('mouseenter', function() {
-            this.style.textShadow = '0 0 20px #e6c2a6, 0 0 30px #e6c2a6';
-        });
-        
-        link.addEventListener('mouseleave', function() {
-            this.style.textShadow = '';
-        });
-    });
-
-    // Feature cards hover effect
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach(card => {
+    // Project card hover effects
+    const projectCards2 = document.querySelectorAll('.project-card');
+    projectCards2.forEach(card => {
         card.addEventListener('mouseenter', function() {
             // Add scanning line effect
             const scanLine = document.createElement('div');
@@ -187,8 +225,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 left: 0;
                 width: 100%;
                 height: 2px;
-                background: linear-gradient(90deg, transparent, #f5f5dc, transparent);
-                animation: cardScan 0.5s ease-out;
+                background: linear-gradient(90deg, transparent, #e5c197, transparent);
+                animation: cardScan 0.8s ease-out;
                 z-index: 10;
             `;
             this.appendChild(scanLine);
@@ -197,29 +235,77 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (scanLine.parentNode) {
                     scanLine.parentNode.removeChild(scanLine);
                 }
-            }, 500);
+            }, 800);
         });
     });
 
-    // Initialize the hero section as visible
-    document.querySelector('.hero').classList.add('animate-in');
-    
+    // Add scanning animation
+    const scanAnimation = document.createElement('style');
+    scanAnimation.textContent = `
+        @keyframes cardScan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    `;
+    document.head.appendChild(scanAnimation);
+
+    // Typing effect for hero description
+    function typeWriter(element, text, speed = 50) {
+        let i = 0;
+        element.innerHTML = '';
+        
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        
+        type();
+    }
+
+    // Initialize typing effect after a delay
+    setTimeout(() => {
+        const heroDescription = document.querySelector('.hero-description');
+        if (heroDescription) {
+            const originalText = heroDescription.textContent;
+            typeWriter(heroDescription, originalText, 30);
+        }
+    }, 2000);
+
+    // Skills hover animation
+    const skills = document.querySelectorAll('.skill');
+    skills.forEach((skill, index) => {
+        skill.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+            this.style.boxShadow = '0 5px 15px rgba(205, 165, 125, 0.3)';
+        });
+        
+        skill.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = 'none';
+        });
+    });
+
+    // Initialize dynamic stars
+    createDynamicStars();
+
     // Console easter egg
     console.log(`
-    ██╗  ██╗███████╗██████╗ ███╗   ██╗ █████╗ ███████╗████████╗██████╗  █████╗ 
-    ██║ ██╔╝██╔════╝██╔══██╗████╗  ██║██╔══██╗██╔════╝╚══██╔══╝██╔══██╗██╔══██╗
-    █████╔╝ █████╗  ██████╔╝██╔██╗ ██║███████║███████╗   ██║   ██████╔╝███████║
-    ██╔═██╗ ██╔══╝  ██╔══██╗██║╚██╗██║██╔══██║╚════██║   ██║   ██╔══██╗██╔══██║
-    ██║  ██╗███████╗██║  ██║██║ ╚████║██║  ██║███████║   ██║   ██║  ██║██║  ██║
-    ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝
-    
-    Welcome to Kernastra Mission Control
-    Systems Status: OPERATIONAL
-    Retro Mode: ENABLED
-    
-    > Mission specialist detected in developer console
-    > Access level: ENGINEER
-    > Keep exploring, space cadet! 🚀
+    ╔═══════════════════════════════════════════════════════════════════╗
+    ║                          KERNASTRA.DEV                           ║
+    ║                     Full Stack Developer                         ║
+    ╠═══════════════════════════════════════════════════════════════════╣
+    ║  Welcome to my portfolio's developer console!                    ║
+    ║  Status: ONLINE                                                   ║
+    ║  Mode: PORTFOLIO                                                  ║
+    ║  Stack: Full                                                      ║
+    ║                                                                   ║
+    ║  > Interested in collaborating?                                   ║
+    ║  > Check out my projects above or reach out via the contact form ║
+    ║  > Let's build something amazing together! 🚀                    ║
+    ╚═══════════════════════════════════════════════════════════════════╝
     `);
 });
 
@@ -236,18 +322,18 @@ function createDynamicStars() {
         z-index: -1;
     `;
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 30; i++) {
         const star = document.createElement('div');
         star.style.cssText = `
             position: absolute;
             width: 2px;
             height: 2px;
-            background: #f5f5dc;
+            background: #e5c197;
             border-radius: 50%;
             animation: twinkle ${2 + Math.random() * 3}s infinite ease-in-out;
             left: ${Math.random() * 100}%;
             top: ${Math.random() * 100}%;
-            box-shadow: 0 0 ${Math.random() * 10 + 5}px #f5f5dc;
+            box-shadow: 0 0 ${Math.random() * 8 + 4}px #e5c197;
         `;
         starsContainer.appendChild(star);
     }
@@ -265,5 +351,11 @@ function createDynamicStars() {
     document.head.appendChild(twinkleStyle);
 }
 
-// Initialize dynamic stars
-createDynamicStars();
+// Smooth page load
+window.addEventListener('load', function() {
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
+});
