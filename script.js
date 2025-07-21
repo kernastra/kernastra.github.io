@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add hover sound effect simulation (visual feedback)
     navLinks.forEach(link => {
         link.addEventListener('mouseenter', function() {
-            this.style.textShadow = '0 0 20px #00ff00, 0 0 30px #00ff00';
+            this.style.textShadow = '0 0 20px #e6c2a6, 0 0 30px #e6c2a6';
         });
         
         link.addEventListener('mouseleave', function() {
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 left: 0;
                 width: 100%;
                 height: 2px;
-                background: linear-gradient(90deg, transparent, #00ffff, transparent);
+                background: linear-gradient(90deg, transparent, #f5f5dc, transparent);
                 animation: cardScan 0.5s ease-out;
                 z-index: 10;
             `;
@@ -242,12 +242,12 @@ function createDynamicStars() {
             position: absolute;
             width: 2px;
             height: 2px;
-            background: #ffffff;
+            background: #f5f5dc;
             border-radius: 50%;
             animation: twinkle ${2 + Math.random() * 3}s infinite ease-in-out;
             left: ${Math.random() * 100}%;
             top: ${Math.random() * 100}%;
-            box-shadow: 0 0 ${Math.random() * 10 + 5}px #ffffff;
+            box-shadow: 0 0 ${Math.random() * 10 + 5}px #f5f5dc;
         `;
         starsContainer.appendChild(star);
     }
