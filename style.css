@@ -181,9 +181,8 @@ body {
     font-weight: 900;
     color: var(--warm-beige);
     text-shadow: 
-        0 0 20px var(--warm-beige),
-        0 0 40px var(--warm-beige),
-        0 0 60px var(--warm-beige);
+        0 0 8px var(--warm-beige),
+        0 0 16px var(--warm-beige);
     margin-bottom: 1rem;
     position: relative;
 }
