@@ -3,247 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kernastra - Developer Portfolio</title>
+    <title>Kernastra - Retro Space Adventures</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="logo.png" alt="Kernastra Logo" class="logo-image">
-                <span class="logo-text">Kernastra</span>
-                <div class="logo-orbit"></div>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#projects" class="nav-link">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        <span class="title-line">Building Digital</span>
-                        <span class="title-line accent">Universes</span>
-                    </h1>
-                    <p class="hero-description">
-                        Full-stack developer crafting innovative solutions and exploring the infinite possibilities of code.
-                        Welcome to my cosmic journey through technology at Kernastra.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">
-                            <span>Explore Projects</span>
-                            <i data-feather="arrow-right"></i>
-                        </a>
-                        <a href="#contact" class="btn btn-secondary">
-                            <span>Get In Touch</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="cosmic-container">
-                        <div class="planet planet-1"></div>
-                        <div class="planet planet-2"></div>
-                        <div class="planet planet-3"></div>
-                        <div class="star star-1"></div>
-                        <div class="star star-2"></div>
-                        <div class="star star-3"></div>
-                        <div class="star star-4"></div>
-                        <div class="star star-5"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <header class="hero">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">About Me</h2>
-                <p class="section-subtitle">Exploring the intersection of creativity and technology</p>
+            <div class="logo-container">
+                <h1 class="logo glitch" data-text="KERNASTRA">KERNASTRA</h1>
+                <p class="tagline">Retro Space Adventures Await</p>
             </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        I'm a passionate developer who believes in the power of clean code and innovative solutions. 
-                        My journey through the digital cosmos has led me to master various technologies and frameworks,
-                        always seeking to push the boundaries of what's possible.
-                    </p>
-                    <p>
-                        When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects,
-                        or sharing my knowledge through various platforms. I believe in continuous learning and the 
-                        importance of community in the tech world.
-                    </p>
-                    <div class="skills">
-                        <div class="skill-category">
-                            <h4>Frontend</h4>
-                            <div class="skill-tags">
-                                <span class="skill-tag">React</span>
-                                <span class="skill-tag">Vue.js</span>
-                                <span class="skill-tag">TypeScript</span>
-                                <span class="skill-tag">CSS3</span>
-                            </div>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Backend</h4>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Node.js</span>
-                                <span class="skill-tag">Python</span>
-                                <span class="skill-tag">PostgreSQL</span>
-                                <span class="skill-tag">MongoDB</span>
-                            </div>
-                        </div>
-                        <div class="skill-category">
-                            <h4>Tools</h4>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Docker</span>
-                                <span class="skill-tag">AWS</span>
-                                <span class="skill-tag">Git</span>
-                                <span class="skill-tag">Linux</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="50">0</div>
-                        <div class="stat-label">Projects Completed</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="100">0</div>
-                        <div class="stat-label">GitHub Repositories</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="1000">0</div>
-                        <div class="stat-label">Lines of Code</div>
-                    </div>
-                </div>
-            </div>
+            
+            <nav class="navigation">
+                <a href="#about" class="nav-link">MISSION</a>
+                <a href="#features" class="nav-link">SYSTEMS</a>
+                <a href="#contact" class="nav-link">CONTACT</a>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Featured Projects</h2>
-                <p class="section-subtitle">A showcase of my latest and most popular repositories</p>
-            </div>
-            <div class="projects-grid" id="projects-grid">
-                <!-- Projects will be loaded dynamically -->
-                <div class="project-loading">
-                    <div class="loading-spinner"></div>
-                    <p>Loading amazing projects...</p>
+    <main>
+        <section id="about" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">MISSION BRIEFING</h2>
+                    <div class="scan-line"></div>
                 </div>
-            </div>
-            <div class="projects-footer">
-                <a href="https://github.com/yourusername" class="btn btn-outline" target="_blank">
-                    <i data-feather="github"></i>
-                    <span>View All on GitHub</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Let's Connect</h2>
-                <p class="section-subtitle">Ready to embark on a cosmic coding adventure together?</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Get In Touch</h3>
-                    <p>
-                        I'm always excited to discuss new opportunities, collaborate on interesting projects,
-                        or simply chat about the latest in tech. Let's connect!
-                    </p>
-                    <div class="social-links">
-                        <a href="https://github.com/kernastra" class="social-link" target="_blank">
-                            <i data-feather="github"></i>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="https://youtube.com/@kernastradev" class="social-link" target="_blank">
-                            <i data-feather="youtube"></i>
-                            <span>YouTube</span>
-                        </a>
-                        <a href="https://reddit.com/u/kernastra" class="social-link" target="_blank">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M12 2a7 7 0 1 0 10 10"/>
-                            </svg>
-                            <span>Reddit</span>
-                        </a>
-                        <a href="mailto:contact@kernastra.com" class="social-link">
-                            <i data-feather="mail"></i>
-                            <span>Email</span>
-                        </a>
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>EXPLORATION PROTOCOL</h3>
+                        </div>
+                        <p>Welcome to Kernastra, where retro-futuristic aesthetics meet cutting-edge space exploration. Navigate through the cosmos with vintage style and modern technology.</p>
+                    </div>
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>RETRO SYSTEMS</h3>
+                        </div>
+                        <p>Experience the golden age of space exploration through our carefully crafted retro interface, complete with CRT-style displays and analog controls.</p>
                     </div>
                 </div>
-                <div class="contact-form">
-                    <form id="contact-form">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">SYSTEM STATUS</h2>
+                    <div class="scan-line"></div>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3>PROPULSION</h3>
+                        <p>Advanced retro-rocket systems for interstellar travel</p>
+                        <div class="status-bar">
+                            <div class="status-fill" style="width: 95%"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📡</div>
+                        <h3>COMMUNICATIONS</h3>
+                        <p>Vintage radio systems with quantum encryption</p>
+                        <div class="status-bar">
+                            <div class="status-fill" style="width: 87%"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛰️</div>
+                        <h3>NAVIGATION</h3>
+                        <p>Classic star charts with modern GPS integration</p>
+                        <div class="status-bar">
+                            <div class="status-fill" style="width: 92%"></div>
                         </div>
-                        <button type="submit" class="btn btn-primary">
-                            <span>Send Message</span>
-                            <i data-feather="send"></i>
-                        </button>
-                    </form>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>POWER CORE</h3>
+                        <p>Fusion-powered energy systems with analog displays</p>
+                        <div class="status-bar">
+                            <div class="status-fill" style="width: 98%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">TRANSMISSION LINK</h2>
+                    <div class="scan-line"></div>
+                </div>
+                <div class="contact-content">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <span class="terminal-button red"></span>
+                                <span class="terminal-button yellow"></span>
+                                <span class="terminal-button green"></span>
+                            </div>
+                            <span class="terminal-title">KERNASTRA_COMM_v2.1</span>
+                        </div>
+                        <div class="terminal-body">
+                            <p class="terminal-line">&gt; Establishing connection...</p>
+                            <p class="terminal-line">&gt; Signal acquired</p>
+                            <p class="terminal-line">&gt; Ready for transmission</p>
+                            <p class="terminal-line">&gt; Contact: mission-control@kernastra.space</p>
+                            <p class="terminal-line">&gt; Frequency: 42.0 MHz</p>
+                            <p class="terminal-line">&gt; <span class="cursor">_</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-text">
-                    <p>&copy; 2025 Kernastra. Crafted with 💙 and lots of ☕</p>
-                </div>
-                <div class="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </div>
+            <p>&copy; 2025 Kernastra. All systems operational.</p>
+            <p class="footer-sub">Retro space adventures since the digital age</p>
         </div>
     </footer>
 
