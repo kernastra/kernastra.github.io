@@ -1,262 +1,1244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kernastra - Full Stack Developer</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KERNASTRA // Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-void: #020408;
+    --bg-deep: #050c14;
+    --bg-panel: rgba(5, 18, 35, 0.75);
+    --bg-panel-hover: rgba(8, 28, 55, 0.88);
+    --border-dim: rgba(0, 180, 255, 0.12);
+    --border-glow: rgba(0, 200, 255, 0.45);
+    --accent-cyan: #00c8ff;
+    --accent-blue: #0066ff;
+    --accent-teal: #00ffd5;
+    --accent-warn: #ff6b35;
+    --text-primary: #e8f4ff;
+    --text-secondary: rgba(180, 215, 240, 0.65);
+    --text-dim: rgba(120, 170, 200, 0.4);
+    --grid-line: rgba(0, 160, 220, 0.06);
+    --glow-cyan: 0 0 20px rgba(0, 200, 255, 0.3);
+    --glow-strong: 0 0 40px rgba(0, 200, 255, 0.5);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-void);
+    color: var(--text-primary);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── STARFIELD ── */
+  #starfield {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── GRID OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Nebula blobs */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 10% 20%, rgba(0, 80, 200, 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 600px at 90% 70%, rgba(0, 40, 120, 0.1) 0%, transparent 70%),
+      radial-gradient(ellipse 300px 300px at 50% 50%, rgba(0, 160, 255, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    height: 64px;
+    background: rgba(2, 4, 8, 0.8);
+    border-bottom: 1px solid var(--border-dim);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent-cyan);
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .nav-logo .logo-bracket {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+
+  .nav-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-teal);
+    box-shadow: 0 0 8px var(--accent-teal);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 0; height: 1px;
+    background: var(--accent-cyan);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--accent-cyan); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── LAYOUT ── */
+  main { position: relative; z-index: 2; }
+
+  section { padding: 100px 0; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 6px var(--accent-cyan);
+  }
+
+  /* ── HERO ── */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    padding-top: 64px;
+  }
+
+  .hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--border-dim);
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+    background: rgba(0, 200, 255, 0.04);
+  }
+
+  .hero-status .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent-teal);
+    box-shadow: 0 0 6px var(--accent-teal);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .hero-name {
+    font-family: 'Exo 2', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.3rem;
+    position: relative;
+  }
+
+  .hero-name::after {
+    content: 'KERNASTRA';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: blur(18px);
+    opacity: 0.25;
+    z-index: -1;
+  }
+
+  .hero-role {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    color: var(--accent-cyan);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s ease forwards;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s ease forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.8rem 1.8rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+    color: var(--bg-void);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 30px rgba(0, 200, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    color: var(--accent-cyan);
+    border: 1px solid var(--border-glow);
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .btn-ghost::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 200, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .btn-ghost:hover::before { opacity: 1; }
+  .btn-ghost:hover { border-color: var(--accent-cyan); box-shadow: var(--glow-cyan); }
+
+  /* Decorative hero corner element */
+  .hero-visual {
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 600px;
+    height: 600px;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  .hero-visual svg {
+    width: 100%;
+    height: 100%;
+    animation: rotateSlow 40s linear infinite;
+  }
+
+  @keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent-cyan), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── STAT ROW ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border-dim);
+    border: 1px solid var(--border-dim);
+    margin-bottom: 80px;
+  }
+
+  .stat-item {
+    background: var(--bg-panel);
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+  }
+
+  .stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .stat-item:hover::before { opacity: 1; }
+
+  .stat-number {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--accent-cyan);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 0 20px rgba(0, 200, 255, 0.4);
+  }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: transparent; }
+
+  .section-title {
+    font-family: 'Exo 2', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1px;
+    background: var(--border-dim);
+    border: 1px solid var(--border-dim);
+    margin-top: 3rem;
+  }
+
+  .project-card {
+    background: var(--bg-panel);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .project-card:hover {
+    background: var(--bg-panel-hover);
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 200, 255, 0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover::before { opacity: 1; }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-blue));
+    transition: height 0.4s ease;
+    box-shadow: var(--glow-cyan);
+  }
+
+  .project-card:hover::after { height: 100%; }
+
+  .project-id {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--accent-cyan);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  .project-name {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+
+  .project-tba {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--accent-warn);
+    font-family: 'Share Tech Mono', monospace;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .project-desc {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border-dim);
+    color: var(--text-dim);
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .project-card:hover .tech-tag {
+    border-color: rgba(0, 200, 255, 0.25);
+    color: var(--text-secondary);
+  }
+
+  .project-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--accent-cyan);
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .project-link:hover { opacity: 1; }
+
+  .project-link svg { transition: transform 0.2s; }
+  .project-link:hover svg { transform: translate(2px, -2px); }
+
+  /* ── ABOUT ── */
+  #about {
+    position: relative;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+  }
+
+  .skills-panel {
+    border: 1px solid var(--border-dim);
+    background: var(--bg-panel);
+    backdrop-filter: blur(12px);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .skills-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-dim);
+    background: rgba(0, 200, 255, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .skills-header-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+  }
+
+  .skills-header-dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .dot-red { width: 8px; height: 8px; border-radius: 50%; background: #ff5f57; }
+  .dot-yellow { width: 8px; height: 8px; border-radius: 50%; background: #ffbd2e; }
+  .dot-green { width: 8px; height: 8px; border-radius: 50%; background: #28c840; }
+
+  .skill-section {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  .skill-section:last-child { border-bottom: none; }
+
+  .skill-category {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.3rem 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .skill-tag::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--border-dim);
+    transition: border-color 0.2s;
+  }
+
+  .skill-tag:hover { color: var(--accent-cyan); }
+  .skill-tag:hover::before { border-color: var(--border-glow); }
+
+  /* ── CONTACT ── */
+  #contact {
+    position: relative;
+  }
+
+  .contact-panel {
+    border: 1px solid var(--border-dim);
+    background: var(--bg-panel);
+    backdrop-filter: blur(12px);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    margin-top: 3rem;
+  }
+
+  .contact-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 200, 255, 0.04) 0%, transparent 50%);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+  }
+
+  .contact-info h3 {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .contact-info p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+  }
+
+  .contact-detail-icon {
+    color: var(--accent-cyan);
+    font-size: 1rem;
+  }
+
+  /* form */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-field {
+    position: relative;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    background: rgba(0, 200, 255, 0.03);
+    border: 1px solid var(--border-dim);
+    color: var(--text-primary);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    padding: 0.9rem 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: none;
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    border-color: var(--border-glow);
+    box-shadow: 0 0 0 1px rgba(0, 200, 255, 0.1);
+  }
+
+  .form-field input::placeholder,
+  .form-field textarea::placeholder {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .form-field textarea { min-height: 120px; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--border-dim);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+  }
+
+  .footer-sys {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+  }
+
+  .footer-sys span {
+    color: var(--accent-teal);
+  }
+
+  /* ── HUD CORNER DECORATIONS ── */
+  .hud-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+  }
+
+  .hud-corner-tl { top: -1px; left: -1px; border-top: 2px solid var(--accent-cyan); border-left: 2px solid var(--accent-cyan); }
+  .hud-corner-tr { top: -1px; right: -1px; border-top: 2px solid var(--accent-cyan); border-right: 2px solid var(--accent-cyan); }
+  .hud-corner-bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--accent-cyan); border-left: 2px solid var(--accent-cyan); }
+  .hud-corner-br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--accent-cyan); border-right: 2px solid var(--accent-cyan); }
+
+  /* ── SCANLINE ── */
+  .scanline-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.015) 2px,
+      rgba(0, 0, 0, 0.015) 4px
+    );
+  }
+
+  /* ── GLITCH ANIMATION ── */
+  @keyframes glitch {
+    0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 0); }
+    20% { clip-path: inset(92% 0 1% 0); transform: translate(2px, 0); }
+    40% { clip-path: inset(43% 0 1% 0); transform: translate(-1px, 0); }
+    60% { clip-path: inset(25% 0 58% 0); transform: translate(1px, 0); }
+    80% { clip-path: inset(54% 0 7% 0); transform: translate(-2px, 0); }
+    100% { clip-path: inset(58% 0 43% 0); transform: translate(2px, 0); }
+  }
+
+  .hero-name-wrap {
+    position: relative;
+    display: inline-block;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+
+  .hero-name-glitch {
+    position: absolute;
+    inset: 0;
+    font-family: 'Exo 2', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--accent-cyan);
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .hero-name-wrap:hover .hero-name-glitch {
+    animation: glitch 0.4s steps(1) infinite;
+    opacity: 0.4;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .stat-row { grid-template-columns: 1fr 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-inner { flex-direction: column; gap: 0.5rem; }
+    .hero-visual { display: none; }
+  }
+</style>
 </head>
 <body>
-    <div class="stars"></div>
-    <div class="stars2"></div>
-    <div class="stars3"></div>
-    
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <a href="#home">KERNASTRA</a>
-            </div>
-            <div class="nav-menu" id="nav-menu">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-            <div class="nav-toggle" id="nav-toggle">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
+
+<div class="scanline-overlay"></div>
+<canvas id="starfield"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <span class="logo-bracket">[</span>KERNASTRA<span class="logo-bracket">]</span>
+    <span class="nav-pulse"></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- ── HERO ── -->
+<section id="home">
+  <div class="hero-content">
+    <div class="hero-status">
+      <span class="dot"></span>
+      SYSTEM ONLINE // AVAILABLE FOR WORK
+    </div>
+
+    <div class="hero-name-wrap">
+      <h1 class="hero-name">KERNASTRA</h1>
+      <div class="hero-name-glitch">KERNASTRA</div>
+    </div>
+
+    <p class="hero-role">// Full Stack Developer</p>
+    <p class="hero-desc">Crafting digital experiences across the full technology stack. Building the future, one line of code at a time.</p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0L12 6L6 12L0 6Z"/></svg>
+        VIEW PROJECTS
+      </a>
+      <a href="#contact" class="btn btn-ghost">CONTACT ME</a>
+      <a href="assets/resume.pdf" class="btn btn-ghost">RESUME</a>
+    </div>
+  </div>
+
+  <!-- orbital ring decoration -->
+  <div class="hero-visual">
+    <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="250" cy="250" r="220" stroke="rgba(0,200,255,0.15)" stroke-width="1" stroke-dasharray="4 8"/>
+      <circle cx="250" cy="250" r="170" stroke="rgba(0,200,255,0.1)" stroke-width="1"/>
+      <circle cx="250" cy="250" r="120" stroke="rgba(0,200,255,0.2)" stroke-width="1" stroke-dasharray="2 6"/>
+      <circle cx="250" cy="250" r="70" stroke="rgba(0,200,255,0.15)" stroke-width="1"/>
+      <!-- tick marks -->
+      <line x1="250" y1="28" x2="250" y2="44" stroke="rgba(0,200,255,0.5)" stroke-width="1.5"/>
+      <line x1="472" y1="250" x2="456" y2="250" stroke="rgba(0,200,255,0.5)" stroke-width="1.5"/>
+      <line x1="250" y1="472" x2="250" y2="456" stroke="rgba(0,200,255,0.5)" stroke-width="1.5"/>
+      <line x1="28" y1="250" x2="44" y2="250" stroke="rgba(0,200,255,0.5)" stroke-width="1.5"/>
+      <!-- crosshair -->
+      <line x1="230" y1="250" x2="270" y2="250" stroke="rgba(0,200,255,0.4)" stroke-width="1"/>
+      <line x1="250" y1="230" x2="250" y2="270" stroke="rgba(0,200,255,0.4)" stroke-width="1"/>
+      <circle cx="250" cy="250" r="4" fill="rgba(0,200,255,0.6)"/>
+      <!-- orbit dot -->
+      <circle cx="470" cy="250" r="5" fill="rgba(0,200,255,0.8)" class="orbit-dot"/>
+    </svg>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<div class="container">
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-number">3+</div>
+      <div class="stat-label">Active Projects</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">12+</div>
+      <div class="stat-label">Technologies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">Full</div>
+      <div class="stat-label">Stack Coverage</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">24/7</div>
+      <div class="stat-label">Available Worldwide</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">02 // MISSIONS</div>
+    <h2 class="section-title">Featured Projects</h2>
+
+    <div class="project-grid">
+
+      <!-- Pixelnova -->
+      <div class="project-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+        <div class="project-id">PRJ-001 // ACTIVE</div>
+        <h3 class="project-name">Pixelnova</h3>
+        <p class="project-desc">A command-line tool for upscaling photos with customizable naming and output options. Precision image enhancement at terminal speed.</p>
+        <div class="tech-stack">
+          <span class="tech-tag">Python</span>
         </div>
-    </nav>
+        <a href="https://github.com/kernastra" class="project-link">
+          View Repository
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H4M10 2V8"/></svg>
+        </a>
+      </div>
 
-    <!-- Hero Section -->
-    <header class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title glitch" data-text="KERNASTRA">KERNASTRA</h1>
-                <p class="hero-subtitle">Full Stack Developer</p>
-                <p class="hero-description">Crafting digital experiences across the full technology stack</p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
-                    <a href="assets/resume.pdf" class="btn btn-outline" target="_blank">Resume</a>
-                </div>
-            </div>
+      <!-- Apollo -->
+      <div class="project-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+        <div class="project-id">PRJ-002 // <span style="color:var(--accent-warn)">INCOMING</span></div>
+        <h3 class="project-name">Apollo <span class="project-tba">TBA</span></h3>
+        <p class="project-desc">A beautiful, responsive self-hosted dashboard for managing your homelab services. Mission control for the modern home server operator.</p>
+        <div class="tech-stack">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Docker</span>
         </div>
-    </header>
+        <a href="https://github.com/kernastra" class="project-link" style="opacity:0.4;pointer-events:none">
+          In Development
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H4M10 2V8"/></svg>
+        </a>
+      </div>
 
-    <main>
-        <!-- Projects Section -->
-        <section id="projects" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">PROJECTS</h2>
-                    <div class="scan-line"></div>
-                </div>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/pixelnova.png" alt="CLI Image Upscaler" loading="lazy">
-                            <div class="project-overlay">
-                                <div class="project-links">
-                                    <a href="https://github.com/kernastra/pixelnova" class="project-link" target="_blank">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                    <a href="https://github.com/kernastra/" class="project-link" target="_blank">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>Pixelnova</h3>
-                            <p>A command-line tool for upscaling photos with customizable naming and output options. </p>
-                            <div class="project-tags">
-                                <span class="tag">PYTHON</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/apollo.png" alt="Space Explorer API" loading="lazy">
-                            <div class="project-overlay">
-                                <div class="project-links">
-                                    <a href="https://github.com/kernastra/apollo" class="project-link" target="_blank">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                    <a href="https://github.com/kernastra/" class="project-link" target="_blank">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>Apollo (TBA)</h3>
-                            <p>A beautiful, responsive self-hosted dashboard for managing your homelab services.</p>
-                            <div class="project-tags">
-                                <span class="tag">HTML</span>
-                                <span class="tag">CSS</span>
-                                <span class="tag">JavaScript</span>
-                                <span class="tag">Docker</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/ripwave.png" alt="Cosmic Data Dashboard" loading="lazy">
-                            <div class="project-overlay">
-                                <div class="project-links">
-                                    <a href="https://github.com/kernastra/ripwave" class="project-link" target="_blank">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                    <a href="https://github.com/kernastra" class="project-link" target="_blank">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>Ripwave</h3>
-                            <p>A full-stack, containerized CD-ripping and music-streaming web app built for your home server.</p>
-                            <div class="project-tags">
-                                <span class="tag">Python</span>
-                                <span class="tag">Docker</span>
-                                <span class="tag">Javascript</span>
-                                <span class="tag">HTML</span>
-                                <span class="tag">CSS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">ABOUT ME</h2>
-                    <div class="scan-line"></div>
-                </div>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p class="about-intro">
-                            I'm a passionate full stack developer with a love for creating digital experiences 
-                            that bridge the gap between cutting-edge technology and intuitive design.
-                        </p>
-                        <p>
-                            With expertise spanning both frontend and backend technologies, I specialize in 
-                            building scalable web applications, mobile solutions, and data-driven platforms. 
-                            My approach combines clean, efficient code with user-centered design principles.
-                        </p>
-                        <p>
-                            When I'm not coding, you can find me exploring the latest in space technology, 
-                            contributing to open source projects, or experimenting with emerging frameworks 
-                            and development tools.
-                        </p>
-                    </div>
-                    <div class="skills-grid">
-                        <div class="skill-category">
-                            <h3>Frontend</h3>
-                            <div class="skills">
-                                <span class="skill">HTML5</span>
-                                <span class="skill">CSS3</span>
-                                <span class="skill">JavaScript</span>
-                                <span class="skill">React</span>
-                                <span class="skill">Vue.js</span>
-                                <span class="skill">TypeScript</span>
-                            </div>
-                        </div>
-                        <div class="skill-category">
-                            <h3>Backend</h3>
-                            <div class="skills">
-                                <span class="skill">Node.js</span>
-                                <span class="skill">Python</span>
-                                <span class="skill">Express</span>
-                                <span class="skill">Django</span>
-                                <span class="skill">PostgreSQL</span>
-                                <span class="skill">MongoDB</span>
-                            </div>
-                        </div>
-                        <div class="skill-category">
-                            <h3>Tools & Others</h3>
-                            <div class="skills">
-                                <span class="skill">Git</span>
-                                <span class="skill">Docker</span>
-                                <span class="skill">AWS</span>
-                                <span class="skill">Linux</span>
-                                <span class="skill">Redis</span>
-                                <span class="skill">GraphQL</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">CONTACT</h2>
-                    <div class="scan-line"></div>
-                </div>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <h3>Let's Connect</h3>
-                        <p>Ready to collaborate on your next project? I'd love to hear from you.</p>
-                        <div class="contact-details">
-                            <div class="contact-item">
-                                <i class="fas fa-envelope"></i>
-                                <span>hello@kernastra.com</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Available Worldwide</span>
-                            </div>
-                        </div>
-                        <div class="social-links">
-                            <a href="https://github.com/kernastra" target="_blank" class="social-link">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="https://youtube.com/@kernastradev" target="_blank" class="social-link">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                            <a href="https://reddit.com/u/kernastra" target="_blank" class="social-link">
-                                <i class="fab fa-reddit"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <form class="contact-form" id="contact-form">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Kernastra. Full Stack Developer.</p>
-            <p class="footer-sub">Building the future, one line of code at a time</p>
+      <!-- Ripwave -->
+      <div class="project-card">
+        <div class="hud-corner hud-corner-tl"></div>
+        <div class="hud-corner hud-corner-br"></div>
+        <div class="project-id">PRJ-003 // ACTIVE</div>
+        <h3 class="project-name">Ripwave</h3>
+        <p class="project-desc">A full-stack, containerized CD-ripping and music-streaming web app built for your home server. Take your collection into orbit.</p>
+        <div class="tech-stack">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
         </div>
-    </footer>
+        <a href="https://github.com/kernastra" class="project-link">
+          View Repository
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H4M10 2V8"/></svg>
+        </a>
+      </div>
 
-    <script src="script.js"></script>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">03 // OPERATOR</div>
+    <h2 class="section-title">About Me</h2>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>A passionate full stack developer with a love for creating digital experiences that bridge the gap between cutting-edge technology and intuitive design.</p>
+        <p>With expertise spanning both frontend and backend technologies, specializing in building scalable web applications, mobile solutions, and data-driven platforms. Clean, efficient code meets user-centered design.</p>
+        <p>When not coding — exploring the latest in space technology, contributing to open source projects, or experimenting with emerging frameworks and development tools.</p>
+        <div style="margin-top: 2rem;">
+          <a href="https://github.com/kernastra" class="btn btn-ghost" style="font-size:0.65rem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.929.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            GITHUB PROFILE
+          </a>
+        </div>
+      </div>
+
+      <div class="skills-panel">
+        <div class="skills-header">
+          <span class="skills-header-title">// TECH STACK</span>
+          <div class="skills-header-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yellow"></span>
+            <span class="dot-green"></span>
+          </div>
+        </div>
+
+        <div class="skill-section">
+          <div class="skill-category">// Frontend</div>
+          <div class="skill-tags">
+            <span class="skill-tag">HTML5</span>
+            <span class="skill-tag">CSS3</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Vue.js</span>
+            <span class="skill-tag">TypeScript</span>
+          </div>
+        </div>
+
+        <div class="skill-section">
+          <div class="skill-category">// Backend</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Express</span>
+            <span class="skill-tag">Django</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">MongoDB</span>
+          </div>
+        </div>
+
+        <div class="skill-section">
+          <div class="skill-category">// Tools & Ops</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">Linux</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">GraphQL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">04 // TRANSMISSION</div>
+    <h2 class="section-title">Let's Connect</h2>
+
+    <div class="contact-panel">
+      <div class="hud-corner hud-corner-tl"></div>
+      <div class="hud-corner hud-corner-tr"></div>
+      <div class="hud-corner hud-corner-bl"></div>
+      <div class="hud-corner hud-corner-br"></div>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Ready to collaborate?</h3>
+          <p>I'd love to hear about your next project. Transmit a message and I'll respond within mission parameters.</p>
+          <div class="contact-detail">
+            <span class="contact-detail-icon">◈</span>
+            hello@kernastra.com
+          </div>
+          <div class="contact-detail">
+            <span class="contact-detail-icon">◈</span>
+            Available Worldwide
+          </div>
+        </div>
+
+        <form class="contact-form" onsubmit="return false;">
+          <div class="form-field">
+            <input type="text" placeholder="Your Name" autocomplete="off">
+          </div>
+          <div class="form-field">
+            <input type="email" placeholder="Email Address" autocomplete="off">
+          </div>
+          <div class="form-field">
+            <textarea placeholder="Your Message"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><polygon points="0,0 10,5 0,10"/></svg>
+            SEND MESSAGE
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2025 KERNASTRA // ALL SYSTEMS NOMINAL</span>
+    <span class="footer-sys">SYS <span>ONLINE</span> // BUILD 2025.1</span>
+  </div>
+</footer>
+
+<script>
+// ── STARFIELD ──
+(function() {
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let stars = [], W, H;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initStars() {
+    stars = [];
+    const count = Math.floor((W * H) / 4000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.1,
+        opacity: Math.random() * 0.7 + 0.1,
+        twinkle: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.01 + 0.005,
+        drift: (Math.random() - 0.5) * 0.05,
+      });
+    }
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      s.twinkle += s.speed;
+      s.x += s.drift;
+      if (s.x < 0) s.x = W;
+      if (s.x > W) s.x = 0;
+      const op = s.opacity * (0.6 + 0.4 * Math.sin(s.twinkle));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200,230,255,${op})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  initStars();
+  draw();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+})();
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ── NAV ACTIVE STATE ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => {
+        l.style.color = l.getAttribute('href') === '#' + entry.target.id
+          ? 'var(--accent-cyan)' : '';
+      });
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(s => observer.observe(s));
+</script>
 </body>
 </html>
